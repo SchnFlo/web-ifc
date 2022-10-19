@@ -970,7 +970,7 @@ namespace webifc
 					{
 						double d = _tape.Read<double>();
 
-						file << d;
+						file << std::scientific <<  d;
 
 						break;
 					}
