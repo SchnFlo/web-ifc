@@ -868,7 +868,7 @@ namespace webifc
 			file << "HEADER;" << std::endl;
 			file << "FILE_DESCRIPTION(('" << description << "'), '2;1');" << std::endl;
 			file << "FILE_NAME('" << name << "', '', (''), (''), 'web-ifc-export', '', '');" << std::endl;
-			file << "FILE_SCHEMA(('IFC2X3'));" << std::endl;
+			file << "FILE_SCHEMA(('IFC4'));" << std::endl;
 			file << "ENDSEC;" << std::endl;
 			file << "DATA;" << std::endl;
 
@@ -970,7 +970,26 @@ namespace webifc
 					{
 						double d = _tape.Read<double>();
 
-						file << std::scientific <<  d;
+						std::ostringstream oss;
+						oss.imbue(std::locale::classic());
+						oss << std::setprecision(std::numeric_limits<double>::digits10) << d;
+						const std::string str = oss.str();
+						oss.str("");
+						std::string::size_type e = str.find('e');
+						if (e == std::string::npos) {
+							e = str.find('E');
+						}
+						const std::string mantissa = str.substr(0,e);
+						oss << mantissa;
+						if (mantissa.find('.') == std::string::npos) {
+							oss << ".";
+						}
+						if (e != std::string::npos) {
+							oss << "E";
+							oss << str.substr(e+1);
+						}
+
+						file << oss.str();
 
 						break;
 					}
