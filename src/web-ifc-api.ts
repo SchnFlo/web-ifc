@@ -150,7 +150,7 @@ export class IfcAPI
     {
         let s: LoaderSettings = {
             COORDINATE_TO_ORIGIN: false,
-            USE_FAST_BOOLS: false,
+            USE_FAST_BOOLS: true, //TODO: This needs to be fixed in the future to rely on elalish/manifold
             CIRCLE_SEGMENTS_LOW: 5,
             CIRCLE_SEGMENTS_MEDIUM: 8,
             CIRCLE_SEGMENTS_HIGH: 12,
@@ -182,7 +182,7 @@ export class IfcAPI
     {
         let s: LoaderSettings = {
             COORDINATE_TO_ORIGIN: false,
-            USE_FAST_BOOLS: false,
+            USE_FAST_BOOLS: true, //TODO: This needs to be fixed in the future to rely on elalish/manifold
             CIRCLE_SEGMENTS_LOW: 5,
             CIRCLE_SEGMENTS_MEDIUM: 8,
             CIRCLE_SEGMENTS_HIGH: 12,
@@ -398,6 +398,16 @@ export class IfcAPI
     GetFlatMesh(modelID: number, expressID: number): FlatMesh
     {
         return this.wasmModule.GetFlatMesh(modelID, expressID);
+    }
+
+    /**
+         * Returns the maximum ExpressID value in the IFC file, ex.- #9999999
+         * @param modelID Model handle retrieved by OpenModel
+         * @returns Express numerical value
+         */
+    GetMaxExpressID(modelID: number)
+    {
+        return this.wasmModule.GetMaxExpressID(modelID);
     }
 
     /**
